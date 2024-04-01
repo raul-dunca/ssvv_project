@@ -1,6 +1,7 @@
 package org.example;
 
 import domain.Student;
+import domain.Tema;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -48,6 +49,142 @@ public class AppTest
         assertTrue( true );
     }
 
+
+    public void testaddTemaGood(){
+
+
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        Tema tema= new Tema("1","cool",3,2) ;
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+
+
+        Tema tema1=service.addTema(tema);
+
+        assertEquals(tema1.getID(), tema.getID());
+        assertEquals(tema1.getDescriere(), tema.getDescriere());
+        assertEquals(tema1.getDeadline(), tema.getDeadline());
+        assertEquals(tema1.getPrimire(), tema.getPrimire());
+    }
+
+
+    public void testaddTemaNullId(){
+
+
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        Tema tema= new Tema(null,"cool",3,2) ;
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+
+        try {
+            service.addTema(tema);
+            fail("Expected ValidationException for negative group");
+        } catch (ValidationException e) {
+            assertEquals("Numar tema invalid!", e.getMessage());
+        }
+
+    }
+
+    public void testaddTemaEmptyDescription(){
+
+
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        Tema tema= new Tema("2","",3,2) ;
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+
+        try {
+            service.addTema(tema);
+            fail("Expected ValidationException for negative group");
+        } catch (ValidationException e) {
+            assertEquals("Descriere invalida!", e.getMessage());
+        }
+
+    }
+
+    public void testaddTemaIncorrectDeadline(){
+
+
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        Tema tema= new Tema("3","cool",15,5) ;
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+
+        try {
+            service.addTema(tema);
+            fail("Expected ValidationException for negative group");
+        } catch (ValidationException e) {
+            assertEquals("Deadlineul trebuie sa fie intre 1-14.", e.getMessage());
+        }
+
+    }
+
+    public void testaddTemaIncorrectPrimire(){
+
+
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        Tema tema= new Tema("4","cool",5,0) ;
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+
+        try {
+            service.addTema(tema);
+            fail("Expected ValidationException for negative group");
+        } catch (ValidationException e) {
+            assertEquals("Saptamana primirii trebuie sa fie intre 1-14.", e.getMessage());
+        }
+
+    }
 
     public void testaddStudentGood(){
 
