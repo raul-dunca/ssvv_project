@@ -35,6 +35,7 @@ public class MainApplication {
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
         UI ui = new UI(service);
+
         ui.run();
     }
 
