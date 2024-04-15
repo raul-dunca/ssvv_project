@@ -58,6 +58,13 @@ public class IntegrationTest
         testaddNotWrongGrade();
         testaddStudentGood();
 }
+
+    public void testaddStudentandTema() {
+        testaddTemaIncorrectPrimire();
+        testaddStudentGood();
+    }
+
+
     public void testaddTemaIncorrectPrimire(){
 
 
